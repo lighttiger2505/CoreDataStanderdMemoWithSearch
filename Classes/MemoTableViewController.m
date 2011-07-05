@@ -12,6 +12,11 @@
 
 @synthesize fetchedResultsController;
 @synthesize managedObjectContext;
+@synthesize searchDisplayController;
+
+@synthesize savedSearchTerm;
+@synthesize savedScopeButtonIndex;
+@synthesize searchWasActive;
 
 #pragma mark -
 #pragma mark Memory management
@@ -23,12 +28,15 @@
 - (void)viewDidUnload {
 	fetchedResultsController = nil;
 	managedObjectContext = nil;
+	searchDisplayController = nil;
 }
 
 
 - (void)dealloc {
 	[fetchedResultsController release];
 	[managedObjectContext release];
+	[searchDisplayController release];
+	
     [super dealloc];
 }
 
@@ -49,11 +57,33 @@
 																			   action:@selector(addMemo:)];
 	self.navigationItem.rightBarButtonItem = addButton;
 	[addButton release];
+	
+	// 検索バーを作成
+	UISearchBar *searchBar = [[[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 44.0)] autorelease];
+    searchBar.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
+    searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.tableView.tableHeaderView = searchBar;
+	
+	// 検索表示ビューコントローラ作成
+    self.searchDisplayController = [[[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self] autorelease];
+    self.searchDisplayController.delegate = self;
+    self.searchDisplayController.searchResultsDataSource = self;
+    self.searchDisplayController.searchResultsDelegate = self;
+	
+	if (self.savedSearchTerm)
+    {
+		// 
+        [self.searchDisplayController setActive:self.searchWasActive];
+        [self.searchDisplayController.searchBar setSelectedScopeButtonIndex:self.savedScopeButtonIndex];
+        [self.searchDisplayController.searchBar setText:savedSearchTerm];
+		
+        self.savedSearchTerm = nil;
+    }
 }
 
 /*
  ビューを開いた際に呼び出される。
- */
+ 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 	
@@ -67,6 +97,15 @@
 	
 	// テーブルビューに内容を反映。
 	[self.tableView reloadData];
+}
+ */
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    // save the state of the search UI so that it can be restored if the view is re-created
+    self.searchWasActive = [self.searchDisplayController isActive];
+    self.savedSearchTerm = [self.searchDisplayController.searchBar text];
+    self.savedScopeButtonIndex = [self.searchDisplayController.searchBar selectedScopeButtonIndex];
 }
 
 #pragma mark -
@@ -95,6 +134,17 @@
 #pragma mark Table view data source
 
 /**
+ セルの内容を編集する。
+ */
+- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
+{
+	// タイトルを表示
+    NSManagedObject *managedObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
+	NSString *memoTitle = [managedObject valueForKey:@"title"];
+    cell.textLabel.text = memoTitle;
+}
+
+/**
  セクション数を返すデリゲートの実装。
  */
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -105,10 +155,11 @@
 /**
  セクション内のデータ数を返すデリゲートの実装。
  */
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
-    id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
-    return [sectionInfo numberOfObjects];
+	NSArray *sections = fetchedResultsController.sections;
+	id <NSFetchedResultsSectionInfo> sectionInfo = [sections objectAtIndex:section];
+	return [sectionInfo numberOfObjects];
 }
 
 /**
@@ -123,20 +174,9 @@
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     
-    // Configure the cell.
-    [self configureCell:cell atIndexPath:indexPath];
+	// 表示テーブルビューに応じたフェッチコントローラを取得し、フェッチの結果をテーブルセルに代入する。
+	[self configureCell:cell atIndexPath:indexPath];
     return cell;
-}
-
-/**
- セルの内容を編集
- */
-- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
-{
-	// タイトルを表示
-    NSManagedObject *managedObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
-	NSString *memoTitle = [[managedObject valueForKey:@"title"] description];
-    cell.textLabel.text = memoTitle;
 }
 
 #pragma mark -
@@ -155,6 +195,131 @@
     
 }
 
+#pragma mark -
+#pragma mark NSFetchedResultsControllerDelegate
+
+- (UITableView*)tableViewForController:(NSFetchedResultsController*)controller 
+{	
+	if (controller == self.fetchedResultsController) {
+		return self.tableView;
+	}
+	else {
+		return self.searchDisplayController.searchResultsTableView;
+	}
+}
+
+/**
+ 表示コンテンツに変更があった際に呼び出されるデリゲートの実装
+ */
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller 
+{
+	UITableView *tableView = [self tableViewForController:controller];
+	[tableView beginUpdates];
+}
+
+/**
+ セクションに変更があった際に呼び出されるデリゲートの実装
+ */
+- (void)controller:(NSFetchedResultsController *)controller 
+  didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
+           atIndex:(NSUInteger)sectionIndex 
+     forChangeType:(NSFetchedResultsChangeType)type 
+{
+	UITableView *tableView = [self tableViewForController:controller];
+	[tableView beginUpdates];	
+	
+    switch(type) 
+    {
+        case NSFetchedResultsChangeInsert:
+            [tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+			
+        case NSFetchedResultsChangeDelete:
+            [tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+    }
+}
+
+/**
+ オブジェクトに変更があった際に呼び出されるデリゲートの実装
+ */
+- (void)controller:(NSFetchedResultsController *)controller 
+   didChangeObject:(id)anObject
+       atIndexPath:(NSIndexPath *)theIndexPath 
+     forChangeType:(NSFetchedResultsChangeType)type
+      newIndexPath:(NSIndexPath *)newIndexPath 
+{
+    UITableView *tableView = [self tableViewForController:controller];
+	
+	// 変更の種類ごとに処理を分割
+    switch(type) 
+    {
+        case NSFetchedResultsChangeInsert:
+            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+			
+        case NSFetchedResultsChangeDelete:
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:theIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+			
+        case NSFetchedResultsChangeUpdate:
+			[self configureCell:[tableView cellForRowAtIndexPath:theIndexPath] atIndexPath:theIndexPath];
+            break;
+			
+        case NSFetchedResultsChangeMove:
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:theIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath]withRowAnimation:UITableViewRowAnimationFade];
+            break;
+    }
+}
+
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller 
+{
+	UITableView *tableView = [self tableViewForController:controller];
+    [tableView endUpdates];
+}
+
+#pragma mark -
+#pragma mark UISearchDisplayControllerDelegate 
+
+
+- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
+{
+    NSString *query = self.searchDisplayController.searchBar.text;
+    if (query && query.length) {
+		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"title CONTAINS[cd] %@", searchText];
+        [self.fetchedResultsController.fetchRequest setPredicate:predicate];
+		[NSFetchedResultsController deleteCacheWithName:@"UserSearch"];
+    }
+	
+    NSError *error = nil;
+    if (![self.fetchedResultsController performFetch:&error]) {
+        // Handle error
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        exit(-1);  // Fail
+    }  
+	
+}
+
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    [self filterContentForSearchText:searchString scope:
+     [[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:[self.searchDisplayController.searchBar selectedScopeButtonIndex]]];
+	
+    return YES;
+}
+
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption
+{
+    [self filterContentForSearchText:[self.searchDisplayController.searchBar text] scope:
+     [[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:searchOption]];
+	
+    return YES;
+}
+
 #pragma mark - Fetched results controller   
 
 /**
@@ -162,23 +327,32 @@
  */
 - (NSFetchedResultsController *)fetchedResultsController
 {
-    if (fetchedResultsController != nil)
-    {
+    
+    if (fetchedResultsController != nil) {
         return fetchedResultsController;
     }
-	
+    
+    /*
+     Set up the fetched results controller.
+	 */
+    // Create the fetch request for the entity.
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    // データを取得するエンティティを指定
+    // Edit the entity name as appropriate.
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Memo" inManagedObjectContext:self.managedObjectContext];
     [fetchRequest setEntity:entity];
     
-    // 取得するデータの並び順を指定
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"text" ascending:YES];
+    // Set the batch size to a suitable number.
+    [fetchRequest setFetchBatchSize:20];
+    
+    // Edit the sort key as appropriate.
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:NO];
     NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+    
     [fetchRequest setSortDescriptors:sortDescriptors];
     
-    // フェッチのコントローラーを作成
-    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+    // Edit the section name key path and cache name if appropriate.
+    // nil for section name key path means "no sections".
+    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"UserSearch"];
     aFetchedResultsController.delegate = self;
     self.fetchedResultsController = aFetchedResultsController;
     
@@ -187,18 +361,19 @@
     [sortDescriptor release];
     [sortDescriptors release];
     
-	// フェッチを実行する。
-	NSError *error = nil;
-	if (![self.fetchedResultsController performFetch:&error])
-    {
-		
-	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-	    abort();
-	}
+    NSError *error = nil;
+    if (![fetchedResultsController performFetch:&error]) {
+        /*
+         Replace this implementation with code to handle the error appropriately.
+         
+         abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. If it is not possible to recover from the error, display an alert panel that instructs the user to quit the application by pressing the Home button.
+         */
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
     
     return fetchedResultsController;
-}   
-
+}    
 
 @end
 
