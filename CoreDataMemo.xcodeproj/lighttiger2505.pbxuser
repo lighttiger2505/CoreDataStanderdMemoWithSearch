@@ -3,15 +3,15 @@
 	1D3623240D0F684500981E51 /* CoreDataMemoAppDelegate.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1172, 741}}";
-			sepNavSelRange = "{585, 0}";
+			sepNavSelRange = "{556, 0}";
 			sepNavVisRange = "{0, 1000}";
 		};
 	};
 	1D3623250D0F684500981E51 /* CoreDataMemoAppDelegate.m */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {2371, 3038}}";
-			sepNavSelRange = "{228, 0}";
-			sepNavVisRange = "{376, 2316}";
+			sepNavSelRange = "{4125, 0}";
+			sepNavVisRange = "{4358, 3090}";
 		};
 	};
 	1D6058900D05DD3D006BFB54 /* CoreDataMemo */ = {
@@ -188,6 +188,7 @@
 			1D6058900D05DD3D006BFB54 /* CoreDataMemo */,
 		);
 		breakpoints = (
+			7ACA158013CB525E00F52160 /* MemoAddViewController.h:1 */,
 		);
 		codeSenseManager = 7AF4C13F13AA38D800825CA9 /* Code sense */;
 		executables = (
@@ -240,52 +241,22 @@
 					PBXFileDataSource_Target_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 331478066;
-			PBXWorkspaceStateSaveDate = 331478066;
+			PBXPerProjectTemplateStateSaveDate = 332091801;
+			PBXWorkspaceStateSaveDate = 332091801;
 		};
 		perUserProjectItems = {
-			7A02F7AA13B22CF500B65447 /* PlistBookmark */ = 7A02F7AA13B22CF500B65447 /* PlistBookmark */;
-			7A02F7CD13B22ED900B65447 /* PBXTextBookmark */ = 7A02F7CD13B22ED900B65447 /* PBXTextBookmark */;
-			7A07F29613B56276007CBFE3 /* XDModelBookmark */ = 7A07F29613B56276007CBFE3 /* XDModelBookmark */;
-			7A07F2A313B56353007CBFE3 /* XDModelBookmark */ = 7A07F2A313B56353007CBFE3 /* XDModelBookmark */;
-			7A07F38D13B574E0007CBFE3 /* PBXTextBookmark */ = 7A07F38D13B574E0007CBFE3 /* PBXTextBookmark */;
-			7A48278E13B58CD800CFE433 /* PBXTextBookmark */ = 7A48278E13B58CD800CFE433 /* PBXTextBookmark */;
-			7A5575BB13C1F4F2009B4A2D /* PBXTextBookmark */ = 7A5575BB13C1F4F2009B4A2D /* PBXTextBookmark */;
-			7A5575BC13C1F4F2009B4A2D /* PBXTextBookmark */ = 7A5575BC13C1F4F2009B4A2D /* PBXTextBookmark */;
-			7A5575BD13C1F4F2009B4A2D /* PBXTextBookmark */ = 7A5575BD13C1F4F2009B4A2D /* PBXTextBookmark */;
-			7A5575BE13C1F4F2009B4A2D /* PBXTextBookmark */ = 7A5575BE13C1F4F2009B4A2D /* PBXTextBookmark */;
-			7A55778313C21EE0009B4A2D /* PBXTextBookmark */ = 7A55778313C21EE0009B4A2D /* PBXTextBookmark */;
-			7A55779E13C21FB2009B4A2D /* PBXTextBookmark */ = 7A55779E13C21FB2009B4A2D /* PBXTextBookmark */;
-			7A5577A913C22015009B4A2D /* PBXTextBookmark */ = 7A5577A913C22015009B4A2D /* PBXTextBookmark */;
-			7A66BD9713B5902500D8EBCF /* PBXTextBookmark */ = 7A66BD9713B5902500D8EBCF /* PBXTextBookmark */;
-			7AE75F9B13ADD955001FCE49 /* PBXTextBookmark */ = 7AE75F9B13ADD955001FCE49 /* PBXTextBookmark */;
-			7AF2B1E813AE5C290083FFD8 /* PBXTextBookmark */ = 7AF2B1E813AE5C290083FFD8 /* PBXTextBookmark */;
-			7AF2B21E13AE5F5B0083FFD8 /* PBXTextBookmark */ = 7AF2B21E13AE5F5B0083FFD8 /* PBXTextBookmark */;
+			7ACA158713CB527500F52160 /* PBXTextBookmark */ = 7ACA158713CB527500F52160 /* PBXTextBookmark */;
+			7ACA15B613CB539100F52160 /* PBXTextBookmark */ = 7ACA15B613CB539100F52160 /* PBXTextBookmark */;
+			7ACA15B713CB539100F52160 /* PBXTextBookmark */ = 7ACA15B713CB539100F52160 /* PBXTextBookmark */;
+			7ACA15E813CB55AD00F52160 /* PBXTextBookmark */ = 7ACA15E813CB55AD00F52160 /* PBXTextBookmark */;
+			7ACA160713CB579300F52160 /* PBXTextBookmark */ = 7ACA160713CB579300F52160 /* PBXTextBookmark */;
+			7ACA161113CB57E400F52160 /* PBXTextBookmark */ = 7ACA161113CB57E400F52160 /* PBXTextBookmark */;
+			7ACA161713CB58CE00F52160 /* PBXTextBookmark */ = 7ACA161713CB58CE00F52160 /* PBXTextBookmark */;
+			7ACA161813CB58D500F52160 /* PBXTextBookmark */ = 7ACA161813CB58D500F52160 /* PBXTextBookmark */;
 		};
 		sourceControlManager = 7AF4C13E13AA38D800825CA9 /* Source Control */;
 		userBuildSettings = {
 		};
-	};
-	7A02F7AA13B22CF500B65447 /* PlistBookmark */ = {
-		isa = PlistBookmark;
-		fRef = 8D1107310486CEB800E47090 /* CoreDataMemo-Info.plist */;
-		fallbackIsa = PBXBookmark;
-		isK = 0;
-		kPath = (
-		);
-		name = "/Users/lighttiger2505/Desktop/GeekLab Coredata/CoreDataMemoPulus/CoreDataMemo-Info.plist";
-		rLen = 0;
-		rLoc = 9223372036854775808;
-	};
-	7A02F7CD13B22ED900B65447 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 7AE75FAF13ADD99C001FCE49 /* UITextView.h */;
-		name = "UITextView.h: 29";
-		rLen = 62;
-		rLoc = 636;
-		rType = 0;
-		vrLen = 1411;
-		vrLoc = 0;
 	};
 	7A07F29013B5620D007CBFE3 /* CoreDataMemo 2.xcdatamodel */ = {
 		uiCtxt = {
@@ -313,7 +284,7 @@
 					chosenTableWidths = (
 						100.000000,
 						26.000000,
-						113.080078,
+						117.080078,
 					);
 				};
 				UIContextForLayoutManager = {
@@ -323,8 +294,8 @@
 						_percentageOfCollapsedView = 0;
 						isCollapsed = yes;
 						sizes = (
-							"{{0, 0}, {803, 218}}",
-							"{{808, 0}, {423, 218}}",
+							"{{0, 0}, {815, 220}}",
+							"{{820, 0}, {430, 220}}",
 						);
 					};
 					diagramSplitGeometry = {
@@ -333,8 +304,8 @@
 						_percentageOfCollapsedView = 0;
 						isCollapsed = yes;
 						sizes = (
-							"{{0, 0}, {1231, 220}}",
-							"{{0, 225}, {1231, 293}}",
+							"{{0, 0}, {1250, 220}}",
+							"{{0, 225}, {1250, 531}}",
 						);
 					};
 					tableSplitGeometry = {
@@ -343,8 +314,8 @@
 						_percentageOfCollapsedView = 0;
 						isCollapsed = yes;
 						sizes = (
-							"{{0, 0}, {264, 218}}",
-							"{{269, 0}, {532, 218}}",
+							"{{0, 0}, {268, 218}}",
+							"{{273, 0}, {540, 218}}",
 						);
 					};
 				};
@@ -433,7 +404,7 @@
 					chosenTableWidthsPT = (
 						128.000000,
 						108.110840,
-						269.570801,
+						277.570801,
 					);
 					chosenTableWidthsRT = (
 						128.000000,
@@ -441,88 +412,69 @@
 					);
 				};
 				"xdesign model browser state key - shown/hidden" = 1;
-				"xdesign model diagram view visible rect key" = "{{-259, 0}, {1216, 278}}";
+				"xdesign model diagram view visible rect key" = "{{-269, -51}, {1235, 516}}";
 			};
 		};
 	};
-	7A07F29613B56276007CBFE3 /* XDModelBookmark */ = {
-		isa = XDModelBookmark;
-		fRef = 28C3AD890F43EF2300507BA6 /* CoreDataMemo.xcdatamodel */;
-		fallbackIsa = PBXBookmark;
+	7ACA158013CB525E00F52160 /* MemoAddViewController.h:1 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7ACA158113CB525E00F52160 /* MemoAddViewController.h */;
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 1;
+		modificationTime = 332093415.367376;
+		originalNumberOfMultipleMatches = 1;
+		state = 0;
 	};
-	7A07F2A313B56353007CBFE3 /* XDModelBookmark */ = {
-		isa = XDModelBookmark;
-		fRef = 7A07F29013B5620D007CBFE3 /* CoreDataMemo 2.xcdatamodel */;
-		fallbackIsa = PBXBookmark;
-	};
-	7A07F38D13B574E0007CBFE3 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 7A07F38E13B574E0007CBFE3 /* UIStringDrawing.h */;
-		name = "UIStringDrawing.h: 24";
-		rLen = 27;
-		rLoc = 928;
-		rType = 0;
-		vrLen = 2688;
-		vrLoc = 0;
-	};
-	7A07F38E13B574E0007CBFE3 /* UIStringDrawing.h */ = {
+	7ACA158113CB525E00F52160 /* MemoAddViewController.h */ = {
 		isa = PBXFileReference;
 		lastKnownFileType = sourcecode.c.h;
-		name = UIStringDrawing.h;
-		path = /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.3.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIStringDrawing.h;
+		name = MemoAddViewController.h;
+		path = "/Users/lighttiger2505/Documents/GeekLab/CoreData Lesson/CoreDataMemo_StanderdWithSearch/Classes/MemoAddViewController.h";
 		sourceTree = "<absolute>";
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1172, 509}}";
+			sepNavSelRange = "{147, 0}";
+			sepNavVisRange = "{0, 149}";
+		};
 	};
-	7A48278E13B58CD800CFE433 /* PBXTextBookmark */ = {
+	7ACA158713CB527500F52160 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
-		fRef = 7AF4C1DF13AA410600825CA9 /* MemoAddViewController.h */;
-		name = "MemoAddViewController.h: 17";
+		fRef = 7ACA158113CB525E00F52160 /* MemoAddViewController.h */;
+		name = "MemoAddViewController.h: 7";
 		rLen = 0;
-		rLoc = 302;
+		rLoc = 147;
 		rType = 0;
-		vrLen = 344;
+		vrLen = 149;
 		vrLoc = 0;
 	};
-	7A5575BB13C1F4F2009B4A2D /* PBXTextBookmark */ = {
+	7ACA15B613CB539100F52160 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
-		fRef = 7AF4C1D213AA401700825CA9 /* MemoDetailViewController.h */;
-		name = "MemoDetailViewController.h: 27";
+		fRef = 1D3623250D0F684500981E51 /* CoreDataMemoAppDelegate.m */;
+		name = "CoreDataMemoAppDelegate.m: 111";
 		rLen = 0;
-		rLoc = 704;
+		rLoc = 4125;
 		rType = 0;
-		vrLen = 704;
-		vrLoc = 0;
+		vrLen = 3090;
+		vrLoc = 4358;
 	};
-	7A5575BC13C1F4F2009B4A2D /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 7AF4C1D313AA401700825CA9 /* MemoDetailViewController.m */;
-		name = "MemoDetailViewController.m: 28";
-		rLen = 0;
-		rLoc = 535;
-		rType = 0;
-		vrLen = 1023;
-		vrLoc = 0;
-	};
-	7A5575BD13C1F4F2009B4A2D /* PBXTextBookmark */ = {
+	7ACA15B713CB539100F52160 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 1D3623240D0F684500981E51 /* CoreDataMemoAppDelegate.h */;
 		name = "CoreDataMemoAppDelegate.h: 22";
 		rLen = 0;
-		rLoc = 585;
+		rLoc = 556;
 		rType = 0;
 		vrLen = 1000;
 		vrLoc = 0;
 	};
-	7A5575BE13C1F4F2009B4A2D /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 1D3623250D0F684500981E51 /* CoreDataMemoAppDelegate.m */;
-		name = "CoreDataMemoAppDelegate.m: 12";
-		rLen = 0;
-		rLoc = 228;
-		rType = 0;
-		vrLen = 2316;
-		vrLoc = 376;
-	};
-	7A55778313C21EE0009B4A2D /* PBXTextBookmark */ = {
+	7ACA15E813CB55AD00F52160 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 7AF4C14013AA38E200825CA9 /* MemoTableViewController.h */;
 		name = "MemoTableViewController.h: 24";
@@ -532,93 +484,45 @@
 		vrLen = 1021;
 		vrLoc = 0;
 	};
-	7A55779E13C21FB2009B4A2D /* PBXTextBookmark */ = {
+	7ACA160713CB579300F52160 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 7AF4C1D213AA401700825CA9 /* MemoEditorViewController.h */;
+		name = "MemoEditorViewController.h: 21";
+		rLen = 0;
+		rLoc = 491;
+		rType = 0;
+		vrLen = 713;
+		vrLoc = 0;
+	};
+	7ACA161113CB57E400F52160 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 7AF4C1D313AA401700825CA9 /* MemoEditorViewController.m */;
+		name = "MemoEditorViewController.m: 222";
+		rLen = 0;
+		rLoc = 4934;
+		rType = 0;
+		vrLen = 1091;
+		vrLoc = 1620;
+	};
+	7ACA161713CB58CE00F52160 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 7AF4C14113AA38E200825CA9 /* MemoTableViewController.m */;
-		name = "MemoTableViewController.m: 178";
+		name = "MemoTableViewController.m: 96";
 		rLen = 0;
-		rLoc = 5009;
+		rLoc = 2666;
 		rType = 0;
-		vrLen = 567;
-		vrLoc = 4512;
+		vrLen = 344;
+		vrLoc = 2448;
 	};
-	7A5577A913C22015009B4A2D /* PBXTextBookmark */ = {
+	7ACA161813CB58D500F52160 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 7AF4C14113AA38E200825CA9 /* MemoTableViewController.m */;
-		name = "MemoTableViewController.m: 375";
+		name = "MemoTableViewController.m: 87";
 		rLen = 0;
-		rLoc = 12075;
+		rLoc = 2433;
 		rType = 0;
-		vrLen = 2213;
-		vrLoc = 9877;
-	};
-	7A66BD9713B5902500D8EBCF /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 7AF4C1E013AA410600825CA9 /* MemoAddViewController.m */;
-		name = "MemoAddViewController.m: 16";
-		rLen = 0;
-		rLoc = 302;
-		rType = 0;
-		vrLen = 1117;
-		vrLoc = 402;
-	};
-	7AE75F9B13ADD955001FCE49 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 7AE75F9C13ADD955001FCE49 /* UITextView.h */;
-		name = "UITextView.h: 32";
-		rLen = 0;
-		rLoc = 709;
-		rType = 0;
-		vrLen = 2075;
-		vrLoc = 1168;
-	};
-	7AE75F9C13ADD955001FCE49 /* UITextView.h */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = sourcecode.c.h;
-		name = UITextView.h;
-		path = /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.3.sdk/System/Library/Frameworks/UIKit.framework/Headers/UITextView.h;
-		sourceTree = "<absolute>";
-	};
-	7AE75FAF13ADD99C001FCE49 /* UITextView.h */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = sourcecode.c.h;
-		name = UITextView.h;
-		path = /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.3.sdk/System/Library/Frameworks/UIKit.framework/Headers/UITextView.h;
-		sourceTree = "<absolute>";
-	};
-	7AF2B1E813AE5C290083FFD8 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 7AF2B1E913AE5C290083FFD8 /* NSManagedObject.h */;
-		name = "NSManagedObject.h: 115";
-		rLen = 39;
-		rLoc = 5573;
-		rType = 0;
-		vrLen = 2210;
-		vrLoc = 4645;
-	};
-	7AF2B1E913AE5C290083FFD8 /* NSManagedObject.h */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = sourcecode.c.h;
-		name = NSManagedObject.h;
-		path = /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.3.sdk/System/Library/Frameworks/CoreData.framework/Headers/NSManagedObject.h;
-		sourceTree = "<absolute>";
-	};
-	7AF2B21E13AE5F5B0083FFD8 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 7AF2B21F13AE5F5B0083FFD8 /* NSPersistentStoreCoordinator.h */;
-		name = "NSPersistentStoreCoordinator.h: 35";
-		rLen = 103;
-		rLoc = 758;
-		rType = 0;
-		vrLen = 2465;
-		vrLoc = 3;
-	};
-	7AF2B21F13AE5F5B0083FFD8 /* NSPersistentStoreCoordinator.h */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = sourcecode.c.h;
-		name = NSPersistentStoreCoordinator.h;
-		path = /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.3.sdk/System/Library/Frameworks/CoreData.framework/Headers/NSPersistentStoreCoordinator.h;
-		sourceTree = "<absolute>";
+		vrLen = 1722;
+		vrLoc = 1365;
 	};
 	7AF4C12D13AA38BA00825CA9 /* CoreDataMemo */ = {
 		isa = PBXExecutable;
@@ -675,38 +579,24 @@
 	};
 	7AF4C14113AA38E200825CA9 /* MemoTableViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {2343, 5076}}";
-			sepNavSelRange = "{12075, 0}";
-			sepNavVisRange = "{9877, 2213}";
+			sepNavIntBoundsRect = "{{0, 0}, {1172, 5732}}";
+			sepNavSelRange = "{2433, 0}";
+			sepNavVisRange = "{1365, 1722}";
 		};
 	};
-	7AF4C1D213AA401700825CA9 /* MemoDetailViewController.h */ = {
+	7AF4C1D213AA401700825CA9 /* MemoEditorViewController.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1172, 741}}";
-			sepNavSelRange = "{704, 0}";
-			sepNavVisRange = "{0, 704}";
+			sepNavSelRange = "{491, 0}";
+			sepNavVisRange = "{0, 713}";
 			sepNavWindowFrame = "{{15, 179}, {1035, 694}}";
 		};
 	};
-	7AF4C1D313AA401700825CA9 /* MemoDetailViewController.m */ = {
+	7AF4C1D313AA401700825CA9 /* MemoEditorViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1379, 3302}}";
-			sepNavSelRange = "{2161, 0}";
-			sepNavVisRange = "{1955, 383}";
-		};
-	};
-	7AF4C1DF13AA410600825CA9 /* MemoAddViewController.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1172, 741}}";
-			sepNavSelRange = "{302, 0}";
-			sepNavVisRange = "{0, 344}";
-		};
-	};
-	7AF4C1E013AA410600825CA9 /* MemoAddViewController.m */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1172, 1174}}";
-			sepNavSelRange = "{302, 0}";
-			sepNavVisRange = "{402, 1117}";
+			sepNavIntBoundsRect = "{{0, 0}, {1379, 3544}}";
+			sepNavSelRange = "{2514, 0}";
+			sepNavVisRange = "{2271, 263}";
 		};
 	};
 }

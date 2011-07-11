@@ -6,12 +6,12 @@
 //  Copyright 2011 nagoya-bunri. All rights reserved.
 //
 
-#import "MemoDetailViewController.h"
+#import "MemoEditorViewController.h"
 
 #define TITLE_CELL_HEIGHT 40
 #define TEXT_CELL_HEIGHT 418
 
-@implementation MemoDetailViewController
+@implementation MemoEditorViewController
 
 @synthesize titleView, textView;
 @synthesize memo;
@@ -45,7 +45,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	self.title = [self.memo valueForKey:@"text"];
+	self.title = [self.memo valueForKey:@"title"];
 	
 	// ナビゲーションバー右にキーボードを画すボタンを追加
 	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel 
@@ -57,6 +57,7 @@
 	UITextField *aTitleView = [[UITextField alloc] init];
 	aTitleView.frame = CGRectMake(0, 0, 320, TITLE_CELL_HEIGHT);
 	aTitleView.font = [UIFont systemFontOfSize:20.0f];
+	aTitleView.placeholder = @"タイトルを入力してください。";
 	aTitleView.backgroundColor = [UIColor lightGrayColor];
 	aTitleView.textAlignment = UITextAlignmentCenter;
 	aTitleView.contentVerticalAlignment = UIControlContentHorizontalAlignmentCenter;
@@ -95,24 +96,38 @@
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:YES];
 	
-	// メモの保存を実行。
-	[self saveMemo:nil];
+	// 何も文字列を入力していない場合
+	if (titleView.text.length == 0 && textView.text.length == 0) {
+		// メモの削除を実行
+		[self deleteMemo];
+	}else {
+		// メモの保存を実行。
+		[self saveMemo];
+	}
 }
 
 /**
  メモを保存する。
  */
-- (void)saveMemo:(id)sender {
+- (void)saveMemo {
 	// 変更内容をデータオブジェクトに反映。
-	[self.memo setValue:self.titleView.text forKey:@"title"];
-	[self.memo setValue:self.textView.text forKey:@"text"];
+	[memo setValue:titleView.text forKey:@"title"];
+	[memo setValue:textView.text forKey:@"text"];
 	
 	// コンテキストに保存内容を反映。
 	NSError *error;
-	if (![[self.memo managedObjectContext] save:&error]) {
+	if (![[memo managedObjectContext] save:&error]) {
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 		exit(-1);  // Fail
 	}
+}
+
+/** 
+ メモを削除する。
+ */
+- (void)deleteMemo {
+	// メモの削除を実行
+	[[memo managedObjectContext] deleteObject:memo];
 }
 
 /**
@@ -179,15 +194,6 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {    
-	/*
-    CGSize bounds = CGSizeMake(self.tableView.frame.size.width, self.tableView.frame.size.height);
-    
-    CGSize size = [self.textView.text sizeWithFont: self.textView.font 
-								 constrainedToSize: bounds 
-									 lineBreakMode: UILineBreakModeCharacterWrap];
-    return size.height;
-	 */
-	
 	if (indexPath.row == 0) {
 		return TITLE_CELL_HEIGHT;
 	}

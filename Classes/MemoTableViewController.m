@@ -8,6 +8,8 @@
 
 #import "MemoTableViewController.h"
 
+#import "MemoEditorViewController.h"
+
 @implementation MemoTableViewController
 
 @synthesize fetchedResultsController;
@@ -49,7 +51,7 @@
 	self.title = @"メモ";
 	
 	// ナビゲーションバーに編集ボタンを作成。
-    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.navigationItem.leftBarButtonItem = self.editButtonItem;
 
 	// ナビゲーションバーに追加ボタンを作成。
 	UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd 
@@ -72,7 +74,6 @@
 	
 	if (self.savedSearchTerm)
     {
-		// 
         [self.searchDisplayController setActive:self.searchWasActive];
         [self.searchDisplayController.searchBar setSelectedScopeButtonIndex:self.savedScopeButtonIndex];
         [self.searchDisplayController.searchBar setText:savedSearchTerm];
@@ -81,28 +82,27 @@
     }
 }
 
-/*
- ビューを開いた際に呼び出される。
- 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+- (void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
 	
-	// データの読み込み。
-	NSError *error = nil;
-	if (![self.fetchedResultsController performFetch:&error])
-    {
-	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-	    abort();
-	}
+	// フェッチを実行
+    NSError *error = nil;
+    if (![self.fetchedResultsController performFetch:&error]) {
+        // Handle error
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        exit(-1);  // Fail
+    }  
 	
-	// テーブルビューに内容を反映。
 	[self.tableView reloadData];
 }
- */
 
+/**
+ ビュー非表示前に呼び出される。
+ */
 - (void)viewDidDisappear:(BOOL)animated
 {
-    // save the state of the search UI so that it can be restored if the view is re-created
+    // 再呼び出しされた時の為に状態を保存
     self.searchWasActive = [self.searchDisplayController isActive];
     self.savedSearchTerm = [self.searchDisplayController.searchBar text];
     self.savedScopeButtonIndex = [self.searchDisplayController.searchBar selectedScopeButtonIndex];
@@ -117,17 +117,16 @@
 - (IBAction)addMemo:sender
 {
 	// 追加用ビューを作成。
-	MemoAddViewController *addViewController = [[MemoAddViewController alloc] init];
+	MemoEditorViewController *detailViewController = [[MemoEditorViewController alloc] init];
 	
 	// メモのエンティティを追加。
-	addViewController.memo = [NSEntityDescription insertNewObjectForEntityForName:@"Memo" inManagedObjectContext:self.managedObjectContext];
+	detailViewController.memo = [NSEntityDescription insertNewObjectForEntityForName:@"Memo" inManagedObjectContext:self.managedObjectContext];
 	
-	// モーダルで追加メモの編集ビューを表示
-	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:addViewController];
-    [self presentModalViewController:navController animated:YES];
+	// 追加メモの編集ビューをプッシュして表示
+    [self.navigationController pushViewController:detailViewController animated:YES];
 	
-	[addViewController release];
-	[navController release];
+	[detailViewController release];
+	
 }
 
 #pragma mark -
@@ -142,6 +141,7 @@
     NSManagedObject *managedObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
 	NSString *memoTitle = [managedObject valueForKey:@"title"];
     cell.textLabel.text = memoTitle;
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
 /**
@@ -179,6 +179,24 @@
     return cell;
 }
 
+/**
+ 編集モード時の削除ボタンを押した際に呼び出されるメソッド
+ */
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        // indexPathから取得したオブジェクトを削除する
+		NSManagedObjectContext *context = [fetchedResultsController managedObjectContext];
+		[context deleteObject:[fetchedResultsController objectAtIndexPath:indexPath]];
+		
+		// 削除内容を保存
+		NSError *error;
+		if (![context save:&error]) {
+			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+			abort();
+		}
+	}   
+}
+
 #pragma mark -
 #pragma mark Table view delegate
 
@@ -188,7 +206,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
     // 選択したセルの情報の詳細表示ビューを作成して、そのビューに移動。
-    MemoDetailViewController *detailViewController = [[MemoDetailViewController alloc] init];
+    MemoEditorViewController *detailViewController = [[MemoEditorViewController alloc] init];
 	detailViewController.memo = [self.fetchedResultsController objectAtIndexPath:indexPath];
 	[self.navigationController pushViewController:detailViewController animated:YES];
     [detailViewController release];
@@ -283,16 +301,22 @@
 #pragma mark -
 #pragma mark UISearchDisplayControllerDelegate 
 
-
+/**
+ 取得した検索文字列を検索するようにフェッチコントローラーに条件を指定して
+ フェッチを再実行する。
+ */
 - (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
 {
     NSString *query = self.searchDisplayController.searchBar.text;
+	// 検索文字列に変化があった場合
     if (query && query.length) {
+		// 検索要求を作成してコントローラに設定
 		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"title CONTAINS[cd] %@", searchText];
         [self.fetchedResultsController.fetchRequest setPredicate:predicate];
 		[NSFetchedResultsController deleteCacheWithName:@"UserSearch"];
     }
 	
+	// フェッチを実行
     NSError *error = nil;
     if (![self.fetchedResultsController performFetch:&error]) {
         // Handle error
@@ -320,7 +344,8 @@
     return YES;
 }
 
-#pragma mark - Fetched results controller   
+#pragma mark - 
+#pragma mark Fetched results controller   
 
 /**
  フェッチのコントローラーを作成する。
@@ -332,26 +357,21 @@
         return fetchedResultsController;
     }
     
-    /*
-     Set up the fetched results controller.
-	 */
-    // Create the fetch request for the entity.
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    // Edit the entity name as appropriate.
+    // フェッチによって取得するエンティティを指定する。
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Memo" inManagedObjectContext:self.managedObjectContext];
     [fetchRequest setEntity:entity];
     
-    // Set the batch size to a suitable number.
+    // 一度にフェッチする量を設定
     [fetchRequest setFetchBatchSize:20];
     
-    // Edit the sort key as appropriate.
+    // ソートの基準となる属性を指定する。
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:NO];
     NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
     
     [fetchRequest setSortDescriptors:sortDescriptors];
     
-    // Edit the section name key path and cache name if appropriate.
-    // nil for section name key path means "no sections".
+    // フェッチ要求を投げて、コントローラーを作成
     NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"UserSearch"];
     aFetchedResultsController.delegate = self;
     self.fetchedResultsController = aFetchedResultsController;
@@ -361,13 +381,9 @@
     [sortDescriptor release];
     [sortDescriptors release];
     
+	// フェッチを実行する。
     NSError *error = nil;
     if (![fetchedResultsController performFetch:&error]) {
-        /*
-         Replace this implementation with code to handle the error appropriately.
-         
-         abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. If it is not possible to recover from the error, display an alert panel that instructs the user to quit the application by pressing the Home button.
-         */
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
